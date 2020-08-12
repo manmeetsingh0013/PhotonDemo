@@ -22,6 +22,8 @@ public class MenuHandler : MonoBehaviourPunCallbacks
 
     private string gameVersion = "0.1";
 
+    private bool isGamePlayLoaded = false;
+
     #endregion
 
     #region MONOBEHAVIOR METHODS
@@ -29,6 +31,7 @@ public class MenuHandler : MonoBehaviourPunCallbacks
     private void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
+
     }
 
     #endregion
@@ -74,16 +77,23 @@ public class MenuHandler : MonoBehaviourPunCallbacks
         }
         else
         {
-            statusText.text = "opponent found!";
-
-            Debug.Log("Opponent found lets play now!");
-
-            Room room = PhotonNetwork.CurrentRoom;
+            LoadGamePlay();
         }
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         if(PhotonNetwork.CurrentRoom.PlayerCount==maxPlayerInRoom)
+        {
+            LoadGamePlay();
+        }
+    }
+    #endregion
+
+    #region PRIVATE METHODS
+
+    private void LoadGamePlay()
+    {
+        if (!isGamePlayLoaded)
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
 
@@ -91,9 +101,12 @@ public class MenuHandler : MonoBehaviourPunCallbacks
 
             Debug.Log("Opponent found lets play now!");
 
-            PhotonNetwork.LoadLevel("Game");
+            isGamePlayLoaded = true;
+
+            PhotonNetwork.LoadLevel("Match");
         }
     }
+
     #endregion
 
     #region PUBLIC METHODS

@@ -8,7 +8,7 @@ public class PlayerName : MonoBehaviour
     [SerializeField] InputField playerNamefield = null;
     [SerializeField] Button continueButton = null;
 
-    private const string playerPrefNameKey = "PlayerName";
+    public const string playerPrefNameKey = "PlayerName";
     void Start()
     {
         SetUpInputField();
